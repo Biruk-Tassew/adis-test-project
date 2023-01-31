@@ -1,11 +1,17 @@
-import { nanoid } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+
 import { useState } from "react";
-import { userAdded } from "./usersSlice";
+import { userUpdated } from "./usersSlice";
 
+export function EditUser() {
+    const { pathname } = useLocation();
+    const userId = pathname.replace("/edit-user/", "");
 
-export function AddUser() {
+    const user = useSelector((state) =>
+        state.users.find((user) => user.id === userId)
+    );
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -15,9 +21,14 @@ export function AddUser() {
     const [age, setAge] = useState("");
     const [gender, setGender] = useState("");
     const [height, setHeight] = useState("");
-    const [error, setError] = useState(null);
 
-    const usersNumber = useSelector((state) => state.users.length);
+    const handleFirstName = (e) => setFirstName(e.target.value);
+    const handleLastName = (e) => setLastName(e.target.value);
+    const handleEmail = (e) => setEmail(e.target.value);
+    const handleAge = (e) => setAge(e.target.value);
+    const handleGender = (e) => setGender(e.target.value);
+    const handleHeight = (e) => setHeight(e.target.value);
+
 
     const handleClick = () => {
         if (firstName && lastName && email && age && height && gender) {
@@ -46,10 +57,11 @@ export function AddUser() {
         setGender("");
         setHeight("")
     };
+
     return (
         <div className="container">
             <div className="row">
-                <h1>Add user</h1>
+                <h1>Edit user</h1>
             </div>
             <div className="row">
                 <div className="three columns">
@@ -107,7 +119,9 @@ export function AddUser() {
                         value={height}
                     />
                     {error && error}
-                    <button onClick={handleClick} className="button-primary">Add user</button>
+                    <button onClick={handleClick} className="button-primary">
+                        Save user
+                    </button>
                 </div>
             </div>
         </div>

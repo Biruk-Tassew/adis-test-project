@@ -18,7 +18,19 @@ const userSlice = createSlice({
     reducers: {
         userAdded(state, action) {
             state.push(action.payload)
-        }
+        },
+        userUpdated(state, action) {
+            const { id, firstName, lastName, email, age, gender, height } = action.payload;
+            const existingUser = state.find((user) => user.id === id);
+            if (existingUser) {
+              existingUser.firstName = firstName;
+              existingUser.lastName = lastName;
+              existingUser.email = email;
+              existingUser.age = age;
+              existingUser.gender = gender;
+              existingUser.height = height;
+            }
+          },
     }
 })
 
