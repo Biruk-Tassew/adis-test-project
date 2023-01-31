@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 export function Users() {
+  const users = useSelector((state)=> state.users)
     return (
       <div className="container">
         <div className="row">
@@ -23,15 +26,20 @@ export function Users() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Dave Gamache</td>
-                <td>dave@gmail.com</td>
+              {users.map(({id, firstName, lastName, age, gender, height}, i)=>(
+                <tr key={id}>
+                <td>{ id }</td>
+                <td>{ firstName }</td>
+                <td>{ lastName }</td>
+                <td>{ age }</td>
+                <td>{ gender }</td>
+                <td>{ height }</td>
                 <td>
                   <button>Delete</button>
                   <button>Edit</button>
                 </td>
               </tr>
+              ))}
             </tbody>
           </table>
         </div>
